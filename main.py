@@ -1,25 +1,19 @@
 # Python program implementing Image Steganography
 
-# PIL module is used to extract
-# pixels of image and modify it
 from PIL import Image
 
-# Convert encoding data into 8-bit binary
-# form using ASCII value of characters
+
 
 
 def genData(data):
-
-    # list of binary codes
-    # of given data
+ 
     newd = []
 
     for i in data:
         newd.append(format(ord(i), '08b'))
     return newd
 
-# Pixels are modified according to the
-# 8-bit binary data and finally returned
+
 
 
 def modPix(pix, data):
@@ -30,13 +24,12 @@ def modPix(pix, data):
 
     for i in range(lendata):
 
-        # Extracting 3 pixels at a time
+        
         pix = [value for value in imdata.__next__()[:3] +
                imdata.__next__()[:3] +
                imdata.__next__()[:3]]
 
-        # Pixel value should be made
-        # odd for 1 and even for 0
+        
         for j in range(0, 8):
             if (datalist[i][j] == '0' and pix[j] % 2 != 0):
                 pix[j] -= 1
@@ -48,10 +41,7 @@ def modPix(pix, data):
                     pix[j] += 1
                 # pix[j] -= 1
 
-        # Eighth pixel of every set tells
-        # whether to stop ot read further.
-        # 0 means keep reading; 1 means thec
-        # message is over.
+        
         if (i == lendata - 1):
             if (pix[-1] % 2 == 0):
                 if(pix[-1] != 0):
@@ -75,7 +65,7 @@ def encode_enc(newimg, data):
 
     for pixel in modPix(newimg.getdata(), data):
 
-        # Putting modified pixels in the new image
+        
         newimg.putpixel((x, y), pixel)
         if (x == w - 1):
             x = 0
@@ -143,8 +133,9 @@ def main():
         raise Exception("Enter correct input")
 
 
-# Driver Code
+
 if __name__ == '__main__':
 
-    # Calling main function
+    
     main()
+
