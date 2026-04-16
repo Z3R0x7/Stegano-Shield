@@ -1,21 +1,4 @@
 import os
-import subprocess
-from pathlib import Path
-
-def setup_stegano_pro():
-    print("🛡️ Deploying Stegano-Shield Pro Architecture...")
-
-    # 1. Directory Setup
-    Path("src").mkdir(exist_ok=True)
-    Path("assets").mkdir(exist_ok=True)
-
-    # 2. Updated Requirements
-    with open("requirements.txt", "w") as f:
-        f.write("Pillow==10.2.0\ncryptography==42.0.2\nnumpy==1.26.4\n")
-
-    # 3. The Core Engine (Hardened)
-    # This combines encryption, compression, and LSB logic
-    steg_code = """import os
 import zlib
 import numpy as np
 from PIL import Image
@@ -27,7 +10,7 @@ import base64
 class SteganoShield:
     def __init__(self, password: str):
         # Professional Key Derivation (PBKDF2)
-        salt = b'\\\\x00' * 16  # In production, use a unique salt
+        salt = b'\\x00' * 16  # In production, use a unique salt
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,
@@ -85,44 +68,3 @@ if __name__ == "__main__":
     # Quick Test logic
     engine = SteganoShield("SpartanProtocol117")
     # engine.encode("assets/input.png", "Top Secret Intel", "assets/hidden.png")
-"""
-    with open("src/engine.py", "w") as f:
-        f.write(steg_code)
-
-    # 4. Writing a clean CLI wrapper
-    cli_code = """import click
-from engine import SteganoShield
-
-@click.group()
-def cli():
-    pass
-
-@cli.command()
-@click.option('--img', help='Input image path')
-@click.option('--msg', help='Message to hide')
-@click.option('--pwd', prompt=True, hide_input=True)
-def hide(img, msg, pwd):
-    shield = SteganoShield(pwd)
-    shield.encode(img, msg, "assets/hidden_output.png")
-
-@cli.command()
-@click.option('--img', help='Image to decode')
-@click.option('--pwd', prompt=True, hide_input=True)
-def reveal(img, pwd):
-    shield = SteganoShield(pwd)
-    print(f"Decoded: {shield.decode(img)}")
-
-if __name__ == "__main__":
-    cli()
-"""
-    with open("src/main.py", "w") as f:
-        f.write(cli_code)
-
-    # 5. Final Commit and Push
-    subprocess.run("git add .", shell=True)
-    subprocess.run('git commit -m "feat: upgrade to AES-256 encrypted steganography"', shell=True)
-    subprocess.run("git push origin main --force", shell=True)
-    print("\\n🔥 Stegano-Shield Pro is live on GitHub!")
-
-if __name__ == "__main__":
-    setup_stegano_pro()
