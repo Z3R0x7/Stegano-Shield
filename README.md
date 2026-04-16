@@ -15,4 +15,3 @@ Stegano-Shield is a collection of Python-based steganography tools designed for 
 In offensive security, steganography is often used to bypass **DLP (Data Loss Prevention)** systems. By hiding malicious scripts inside legitimate-looking images, an attacker can exfiltrate data or smuggle payloads.
 
 ---
-**Part of the Z3R0x7 Security Research Portfolio.**
